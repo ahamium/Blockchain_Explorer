@@ -39,7 +39,7 @@ import base58
 
 __version__ = version.__version__
 
-ABE_APPNAME = "Soundcoin Abe"
+ABE_APPNAME = "WESCOIN"
 ABE_VERSION = __version__
 ABE_URL = 'https://github.com/bitcoin-abe/bitcoin-abe'
 
@@ -64,12 +64,12 @@ DEFAULT_TEMPLATE = """
 <head>
     <link rel="stylesheet" type="text/css"
      href="%(dotdot)s%(STATIC_PATH)sabe.css" />
-    <link rel="shortcut icon" href="%(dotdot)s%(STATIC_PATH)sfavicon.ico" />
+    <!--<link rel="shortcut icon" href="%(dotdot)s%(STATIC_PATH)sfavicon.ico" />-->
     <title>%(title)s</title>
 </head>
 <body>
-    <h1><a href="%(dotdot)s%(HOMEPAGE)s"><img
-     src="%(dotdot)s%(STATIC_PATH)slogo32.png" alt="Abe logo" /></a> %(h1)s
+    <h1><img
+     src="%(dotdot)s%(STATIC_PATH)slogo32.png" alt="Abe logo" /></a> %(h1)s 
     </h1>
     %(body)s
     <p><a href="%(dotdot)sq">API</a> (machine-readable pages)</p>
@@ -78,9 +78,6 @@ DEFAULT_TEMPLATE = """
             Powered by <a href="%(ABE_URL)s">Bitcoin-Abe</a>
         </span>
         %(download)s
-        Tips appreciated!
-        <a href="%(DONATIONS_BTC)s">BTC</a>
-        <a href="%(DONATIONS_NMC)s">NMC</a>
     </p>
 </body>
 </html>
@@ -207,9 +204,12 @@ class Abe:
                                 " the database does not support it.")
         if abe.shortlink_type == "non-firstbits":
             abe.shortlink_type = 10
+        
 
     def __call__(abe, env, start_response):
         import urlparse
+        print("---pung---")
+        print(abe.base_url)
 
         status = '200 OK'
         page = {
@@ -270,8 +270,8 @@ class Abe:
         start_response(status, [('Content-type', page['content_type']),
                                 ('Cache-Control', 'max-age=30')])
 
-        tvars['title'] = flatten(page['title'])
-        tvars['h1'] = flatten(page.get('h1') or page['title'])
+        tvars['title'] = flatten(page['title']) + ' BLOCK EXPLORER'
+        tvars['h1'] = flatten(page.get('h1') or page['title'] + ' BLOCK EXPLORER')  
         tvars['body'] = flatten(page['body'])
         if abe.args.auto_agpl:
             tvars['download'] = (
@@ -286,7 +286,7 @@ class Abe:
         return getattr(abe, 'handle_' + cmd, None)
 
     def handle_chains(abe, page):
-        page['title'] = ABE_APPNAME + ' Search'
+        page['title'] = ABE_APPNAME 
         body = page['body']
         body += [
             abe.search_form(page),
@@ -485,7 +485,7 @@ class Abe:
             if c != count:
                 nav += ['</a>']
                 
-        nav += [' <a class="btn btn-primary btn-sm" href="', page['dotdot'], '">Search</a></div></div>']
+        nav += [' </div></div>']
         #print nav
         
         extra = False
@@ -1762,6 +1762,7 @@ class Abe:
             ret = False
         else:
             env['PATH_INFO'] = pi
+    
         return ret
 
 def find_htdocs():

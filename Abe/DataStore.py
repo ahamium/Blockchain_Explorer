@@ -6,12 +6,12 @@
 # it under the terms of the GNU Affero General Public License as
 # published by the Free Software Foundation, either version 3 of the
 # License, or (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Affero General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Affero General Public
 # License along with this program.  If not, see
 # <http://www.gnu.org/licenses/agpl.html>.
@@ -79,8 +79,8 @@ CHAIN_CONFIG = [
     {"chain":"Hirocoin"},
     {"chain":"Bitleu"},
     {"chain":"Maxcoin"},
-    #{"chain":"",
-    # "code3":"", "address_version":"\x", "magic":""},
+    {"chain":"WESCOIN",
+     "code3":"WES", "address_version":"\x05", "magic":"\x9D\xA4\x4A\xE8"},
     ]
 
 NULL_PUBKEY_HASH = "\0" * Chain.PUBKEY_HASH_LENGTH
@@ -88,7 +88,8 @@ NULL_PUBKEY_ID = 0
 PUBKEY_ID_NETWORK_FEE = NULL_PUBKEY_ID
 
 # Size of the script and pubkey columns in bytes.
-MAX_SCRIPT = 1000000
+#MAX_SCRIPT = 1000000
+MAX_SCRIPT = 21844
 MAX_PUBKEY = 65
 
 NO_CLOB = 'BUG_NO_CLOB'
@@ -2548,7 +2549,9 @@ store._ddl['txout_approx'],
         rpcuser     = conf.get("rpcuser", "")
         rpcpassword = conf["rpcpassword"]
         rpcconnect  = conf.get("rpcconnect", "127.0.0.1")
+        #rpcconnect  = conf.get("rpcconnect", "172.26.10.250")
         rpcport     = conf.get("rpcport", chain.datadir_rpcport)
+        # rpcport     = conf.get("rpcport", 2222)
         url = "http://" + rpcuser + ":" + rpcpassword + "@" + rpcconnect \
             + ":" + str(rpcport)
 
@@ -3265,4 +3268,4 @@ store._ddl['txout_approx'],
         return ret
 
 def new(args):
-    return DataStore(args)
+    return DataStore(args) 

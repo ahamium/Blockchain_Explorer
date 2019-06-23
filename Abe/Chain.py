@@ -32,6 +32,7 @@ def create(policy, **kwargs):
     if policy == "Bitleu":          return Bitleu(**kwargs)
     if policy == "Keccak":          return KeccakChain(**kwargs)
     if policy == "Maxcoin":         return Maxcoin(**kwargs)
+    if policy == "WESCOIN":         return WESCOIN(**kwargs)
     return Sha256NmcAuxPowChain(**kwargs)
 
 
@@ -246,6 +247,15 @@ class Bitcoin(Sha256Chain):
         chain.address_version = '\x00'
         chain.script_addr_vers = '\x05'
         chain.magic = '\xf9\xbe\xb4\xd9'
+        Chain.__init__(chain, **kwargs)
+
+class WESCOIN(Sha256Chain):
+    def __init__(chain, **kwargs):
+        chain.name = 'WESCOIN'
+        chain.code3 = 'WES'
+        chain.address_version = '\x05'
+        chain.script_addr_vers = '\x05'
+        chain.magic = '\x9D\xA4\x4A\xE8'
         Chain.__init__(chain, **kwargs)
 
 class Testnet(Sha256Chain):
